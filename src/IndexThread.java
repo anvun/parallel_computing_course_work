@@ -9,9 +9,9 @@ public class IndexThread extends Thread{
 
     @Override
     public void run() {
-        for(int i = startIndex; i < Main.index.allPaths.size(); i+= Main.THREAD_COUNT) {
+        for(int i = startIndex; i < Server.index.allPaths.size(); i+= Server.THREAD_COUNT) {
             try {
-                Main.index.AddWords(Main.index.allPaths.get(i));
+                Server.index.AddWords(Server.index.allPaths.get(i));
             } catch (IOException e) {
                 e.printStackTrace();
             }

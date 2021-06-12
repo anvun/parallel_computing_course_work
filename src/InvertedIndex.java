@@ -13,7 +13,7 @@ public class InvertedIndex {
 
     public InvertedIndex() {
         indexMap = new ConcurrentHashMap<>();
-        allPaths = new ArrayList<>();
+        allPaths = Collections.synchronizedList(new ArrayList());
     }
 
     public void getAllPaths(Path root) {

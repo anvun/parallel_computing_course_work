@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Search {
-    public static void Find(String query) throws IOException {
+    public static String[] Find(String query) throws IOException {
         String [] queryWords = InvertedIndex.Split(query);
 
         JsonParser parser = new JsonParser();
-        JsonObject json = (JsonObject) parser.parse(new FileReader(Main.OUTPUT));
+
+        JsonObject json = (JsonObject) parser.parse(new FileReader(Server.OUTPUT));
 
         ArrayList<ArrayList<String>> listOfLists = new ArrayList<>();
         for (String word : queryWords) {
@@ -24,22 +25,15 @@ public class Search {
             listOfLists.add(list);
         }
 
-        ArrayList<String> result = Intersection(listOfLists);
-        if(!result.isEmpty()){
-            System.out.println("Matching files:");
-            for(String path : result){
-                System.out.println(PathHandler.getFullPath(path));
-            }
-        }
-        else System.out.println("No matching files");
+        return Intersection(listOfLists);
     }
 
-    public static ArrayList<String> Intersection(ArrayList<ArrayList<String>> lists) {
+    public static String[] Intersection(ArrayList<ArrayList<String>> lists) {
         HashSet<String> intersectionSet = new HashSet<>(lists.get(0));
         for (int i = 1; i < lists.size(); i++) {
             HashSet<String> set = new HashSet<>(lists.get(i));
             intersectionSet.retainAll(set);
         }
-        return new ArrayList<>(intersectionSet);
+        return intersectionSet.toArray(new String[0]);//new ArrayList<>(intersectionSet);
     }
 }
